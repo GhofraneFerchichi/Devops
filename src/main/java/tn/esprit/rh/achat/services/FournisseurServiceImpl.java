@@ -18,6 +18,7 @@ import java.util.List;
 @Slf4j
 public class FournisseurServiceImpl implements IFournisseurService {
 
+
 	@Autowired
 	FournisseurRepository fournisseurRepository;
 	@Autowired
@@ -27,7 +28,18 @@ public class FournisseurServiceImpl implements IFournisseurService {
 	@Autowired
 	SecteurActiviteRepository secteurActiviteRepository;
 
-	@Override
+	@Autowired
+	public FournisseurServiceImpl(FournisseurRepository fournisseurRepository, DetailFournisseurRepository detailFournisseurRepository) {
+		this.fournisseurRepository = fournisseurRepository;
+		this.detailFournisseurRepository = detailFournisseurRepository;
+	}
+
+/*	@Override
+	public List<Fournisseur> retrieveAllFournisseurs() {
+		return (List<Fournisseur>) fournisseurRepository.findAll();
+	}
+*/
+@Override
 	public List<Fournisseur> retrieveAllFournisseurs() {
 		List<Fournisseur> fournisseurs = (List<Fournisseur>) fournisseurRepository.findAll();
 		for (Fournisseur fournisseur : fournisseurs) {
