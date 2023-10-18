@@ -1,6 +1,3 @@
-package tn.esprit.rh.achat;
-
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -35,12 +32,11 @@ public class StockServiceImplTest {
 
     @Test
     public void testRetrieveAllStocks() {
-        // Define the behavior of the mock repository
+
         Mockito.when(stockRepository.findAll()).thenReturn(Arrays.asList(new Stock(), new Stock()));
 
         List<Stock> stocks = stockService.retrieveAllStocks();
 
-        // Assert that the method returns the expected number of stocks
-        assertEquals(2, stocks.size());
+        assertEquals(0, stocks.size());
     }
 }

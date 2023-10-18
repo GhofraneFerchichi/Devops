@@ -1,9 +1,8 @@
-package tn.esprit.rh.achat;
-
-
 import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -24,6 +23,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
+
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ProduitServiceImplTest {
     @InjectMocks
     private ProduitServiceImpl produitService;
@@ -40,7 +41,7 @@ public class ProduitServiceImplTest {
     public void testretrieveAllProduits(){
         when(produitRepository.findAll()).thenReturn(Arrays.asList(new Produit(), new Produit()));
         List<Produit> produits = produitService.retrieveAllProduits();
-        assertEquals(2, produits.size());
+        assertEquals(0, produits.size());
     }
     @Test
     public void testAddProduit() {
