@@ -1,8 +1,8 @@
 package tn.esprit.rh.achat;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -16,10 +16,10 @@ import tn.esprit.rh.achat.services.StockServiceImpl;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 @SpringBootTest
-@RunWith(MockitoJUnitRunner.class)
 public class StockServiceImplTest {
 
     @InjectMocks
@@ -28,7 +28,7 @@ public class StockServiceImplTest {
     @Mock
     private StockRepository stockRepository;
 
-    @Before
+    @BeforeEach
     public void init() {
         MockitoAnnotations.initMocks(this);
     }
