@@ -1,12 +1,12 @@
-import org.aspectj.lang.annotation.Before;
+package tn.esprit.rh.achat;
+
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import tn.esprit.rh.achat.entities.Produit;
 import tn.esprit.rh.achat.entities.Stock;
@@ -22,11 +22,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
-
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SpringBootTest(classes = ProduitServiceImplTest.class)
+@ExtendWith(MockitoExtension.class)
 public class ProduitServiceImplTest {
     @InjectMocks
+
     private ProduitServiceImpl produitService;
 
     @Mock
@@ -41,8 +41,9 @@ public class ProduitServiceImplTest {
     public void testretrieveAllProduits(){
         when(produitRepository.findAll()).thenReturn(Arrays.asList(new Produit(), new Produit()));
         List<Produit> produits = produitService.retrieveAllProduits();
-        assertEquals(0, produits.size());
+        assertEquals(2, produits.size());
     }
+
     @Test
     public void testAddProduit() {
         Produit produit = new Produit();
