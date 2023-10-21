@@ -2,103 +2,105 @@ package tn.esprit.rh.achat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+import tn.esprit.rh.achat.entities.CategorieFournisseur;
 import tn.esprit.rh.achat.entities.Fournisseur;
-import tn.esprit.rh.achat.repositories.DetailFournisseurRepository;
 import tn.esprit.rh.achat.repositories.FournisseurRepository;
 import tn.esprit.rh.achat.services.FournisseurServiceImpl;
-import tn.esprit.rh.achat.services.IFournisseurService;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@Transactional
 public class FournisseurServiceStaticTestJunit {
+        @Autowired
+        private FournisseurServiceImpl fournisseurService;
 
-    @Mock
-    private FournisseurRepository fournisseurRepository;
+        @Autowired
+        private FournisseurRepository fournisseurRepository;
 
-    @Mock
-    private DetailFournisseurRepository detailFournisseurRepository;
+        @BeforeEach
+        public void setUp() {
+            // Add any necessary setup here
+            // For example, you can create some sample data for testing
 
-    private IFournisseurService fournisseurService;
+            Fournisseur fournisseur1 = new Fournisseur();
+            fournisseur1.setCode("F1");
+            fournisseur1.setLibelle("Supplier 1");
+            fournisseur1.setCategorieFournisseur(CategorieFournisseur.ORDINAIRE);
+            fournisseurService.addFournisseur(fournisseur1);
 
-    @BeforeEach
-    public void setUp() {
-        // Create an instance of FournisseurServiceImpl and inject the mock repositories
-        fournisseurService = new FournisseurServiceImpl(fournisseurRepository, detailFournisseurRepository);
+            Fournisseur fournisseur2 = new Fournisseur();
+            fournisseur2.setCode("F2");
+            fournisseur2.setLibelle("Supplier 2");
+            fournisseur2.setCategorieFournisseur(CategorieFournisseur.CONVENTIONNE);
+            fournisseurService.addFournisseur(fournisseur2);
+        }
+
+        @Test
+        public void testRetrieveAllFournisseurs() {
+            List<Fournisseur> fournisseurs = fournisseurService.retrieveAllFournisseurs();
+
+            // Add assertions to verify the results
+            assertNotNull(fournisseurs);
+            assertEquals(2, fournisseurs.size());
+        }
+
+        @Test
+        public void testAddFournisseur() {
+            Fournisseur fournisseur = new Fournisseur();
+            fournisseur.setCode("F3");
+            fournisseur.setLibelle("Supplier 3");
+            fournisseur.setCategorieFournisseur(CategorieFournisseur.ORDINAIRE);
+
+            // Call the method you want to test
+            Fournisseur addedFournisseur = fournisseurService.addFournisseur(fournisseur);
+
+            // Verify that the Fournisseur was saved and returned correctly
+            assertNotNull(addedFournisseur.getIdFournisseur());
+        }
+
+        @Test
+        public void testUpdateFournisseur() {
+            Fournisseur fournisseur = fournisseurRepository.findByCode("F1"); // Assuming a method to find by code exists
+
+            // Modify the Fournisseur object
+            fournisseur.setLibelle("Updated Supplier 1");
+
+            // Call the method you want to test
+            Fournisseur updatedFournisseur = fournisseurService.updateFournisseur(fournisseur);
+
+            // Verify that the Fournisseur was updated correctly
+            assertEquals("Updated Supplier 1", updatedFournisseur.getLibelle());
+        }
+
+        @Test
+        public void testDeleteFournisseur() {
+            Fournisseur fournisseur = fournisseurRepository.findByCode("F2"); // Assuming a method to find by code exists
+
+            // Call the method you want to test
+            fournisseurService.deleteFournisseur(fournisseur.getIdFournisseur());
+
+            // Verify that the Fournisseur with the specified ID was deleted
+            Fournisseur deletedFournisseur = fournisseurService.retrieveFournisseur(fournisseur.getIdFournisseur());
+            assertNull(deletedFournisseur);
+        }
+
+        @Test
+        public void testRetrieveFournisseur() {
+            Fournisseur fournisseur = fournisseurRepository.findByCode("F1"); // Assuming a method to find by code exists
+
+            // Call the method you want to test
+            Fournisseur retrievedFournisseur = fournisseurService.retrieveFournisseur(fournisseur.getIdFournisseur());
+
+            // Verify that the correct Fournisseur was retrieved
+            assertNotNull(retrievedFournisseur);
+            assertEquals("F1", retrievedFournisseur.getCode());
+        }
     }
-
-    @Test
-    public void testRetrieveAllFournisseurs() {
-        // Define the behavior of the mock repository when findAll is called
-        List<Fournisseur> fournisseurs = new ArrayList<>();
-        Mockito.when(fournisseurRepository.findAll()).thenReturn(fournisseurs);
-
-        // Now you can call the method you want to test
-        List<Fournisseur> result = fournisseurService.retrieveAllFournisseurs();
-
-        // Add assertions to verify the results
-        assertEquals(fournisseurs.size(), result.size());
-    }
-
-    @Test
-    public void testAddFournisseur() {
-        Fournisseur fournisseur = new Fournisseur(/* provide constructor arguments */);
-
-        // Simulate the behavior of the FournisseurRepository when saving
-        Mockito.when(fournisseurRepository.save(fournisseur)).thenReturn(fournisseur);
-
-        // Call the method you want to test
-        Fournisseur addedFournisseur = fournisseurService.addFournisseur(fournisseur);
-
-        // Verify that the Fournisseur was saved and returned correctly
-        assertEquals(fournisseur, addedFournisseur);
-    }
-
-    @Test
-    public void testUpdateFournisseur() {
-        Fournisseur fournisseur = new Fournisseur(/* provide constructor arguments */);
-
-        // Simulate the behavior of the FournisseurRepository when saving
-        Mockito.when(fournisseurRepository.save(fournisseur)).thenReturn(fournisseur);
-
-        // Call the method you want to test
-        Fournisseur updatedFournisseur = fournisseurService.updateFournisseur(fournisseur);
-
-        // Verify that the Fournisseur was updated and returned correctly
-        assertEquals(fournisseur, updatedFournisseur);
-    }
-
-    @Test
-    public void testDeleteFournisseur() {
-        Long fournisseurId = 1L;
-
-        // Call the method you want to test
-        fournisseurService.deleteFournisseur(fournisseurId);
-
-        // Verify that the Fournisseur with the specified ID was deleted
-        Mockito.verify(fournisseurRepository).deleteById(fournisseurId);
-    }
-
-    @Test
-    public void testRetrieveFournisseur() {
-        Long fournisseurId = 1L;
-        Fournisseur expectedFournisseur = new Fournisseur(/* provide constructor arguments */);
-
-        // Simulate the behavior of the FournisseurRepository when finding by ID
-        Mockito.when(fournisseurRepository.findById(fournisseurId)).thenReturn(Optional.of(expectedFournisseur));
-
-        // Call the method you want to test
-        Fournisseur retrievedFournisseur = fournisseurService.retrieveFournisseur(fournisseurId);
-
-        // Verify that the correct Fournisseur was retrieved
-        assertEquals(expectedFournisseur, retrievedFournisseur);
-    }
-}
