@@ -70,7 +70,7 @@
 		</repository>
 	</distributionManagement>
 	<build>
-		<finalName>my-service-${project.version}</finalName>
+		<finalName>devops-integration</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -85,6 +85,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+
 	</build>
 
 
