@@ -70,7 +70,7 @@
 		</repository>
 	</distributionManagement>
 	<build>
-		<finalName>devops-integration</finalName>
+		<finalName>achat</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
