@@ -1,10 +1,11 @@
 FROM openjdk:11-jre-slim
 WORKDIR /app
 
-#the artifact path
+# the artifact path
 ARG artifact=target/springapp.jar
 
 COPY ${artifact} app.jar
 EXPOSE 8088
-CMD ["java", "-jar", "springapp.jar"]
+CMD ["java", "-jar", "app.jar"]
+
 
