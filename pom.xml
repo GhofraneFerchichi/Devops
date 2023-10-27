@@ -80,7 +80,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>SpringApp</finalName>
+		<finalName>springapp</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
