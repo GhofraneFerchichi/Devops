@@ -8,4 +8,3 @@ COPY ${artifact} app.jar
 EXPOSE 8088
 CMD ["java", "-jar", "app.jar"]
 
-
