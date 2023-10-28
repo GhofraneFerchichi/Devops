@@ -1,4 +1,5 @@
 version: "3.8"
+
 services:
   db:
     image: mysql:8.0
@@ -15,7 +16,7 @@ services:
     image: oussamasaihi/backend:latest
     restart: on-failure
     ports:
-      - "8084:8084"
+      - "8088:8088"
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.datasource.url": "jdbc:mysql://db:3306/achatdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
@@ -25,6 +26,16 @@ services:
       }'
     depends_on:
       - db
+
+  angular:
+    image: your_angular_image:latest
+    restart: on-failure
+    ports:
+      - "80:80"
+    environment:
+      BACKEND_URL: "http://spring:8088"  # Point this to your backend service
+    depends_on:
+      - spring
 
 volumes:
   db_data: {}
