@@ -26,5 +26,13 @@ services:
     depends_on:
       - db
 
+  frontend:
+    image: ghofraneferchichi/front-achat:latest
+    restart: on-failure
+    ports:
+      - "80:80"
+    environment:
+      BACKEND_URL: "http://spring:8084"  # Connect to the backend service
+
 volumes:
   db_data: {}
