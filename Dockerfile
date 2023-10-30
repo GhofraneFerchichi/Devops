@@ -6,12 +6,7 @@ EXPOSE 8080
 
 # Définissez le répertoire de travail dans le conteneur
 WORKDIR /app
-
-# Mettez à jour le système et installez curl pour télécharger le JAR
-RUN apt-get update && apt-get install -y curl
-
-# Téléchargez le JAR depuis l'URL spécifiée et nommez-le achat.jar
-RUN curl -o achat.jar -L "http://192.168.1.40:8081/repository/deploymentRepo/tn/esprit/rh/achat/1.0/achat-1.0.jar"
-
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
 # Commande d'entrée pour exécuter l'application Java
-CMD ["java", "-jar", "/app/achat.jar"]
+CMD ["java", "-jar", "app.jar"]
