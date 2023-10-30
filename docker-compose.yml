@@ -28,7 +28,7 @@ services:
       - db
 
   angular:
-    image: your_angular_image:latest
+    image: oussamasaihi/frontend:latest
     restart: on-failure
     ports:
       - "80:80"
