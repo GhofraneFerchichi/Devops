@@ -27,9 +27,8 @@ services:
 
   achat-frontend:
     build:
-      context: C:\Users\ghofr\OneDrive\Bureau\front\crud-tuto-front
+      context: .
       dockerfile: Dockerfile
-
     restart: unless-stopped
     ports:
       - "4200:80"
