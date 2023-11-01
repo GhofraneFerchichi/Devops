@@ -27,15 +27,15 @@ services:
     depends_on:
       - db
 
-  angular:
-    image: oussamasaihi/frontend:latest
-    restart: on-failure
-    ports:
-      - "80:80"
-    environment:
-      BACKEND_URL: "http://spring:8088"  # Point this to your backend service
-    depends_on:
-      - spring
+  #angular:
+   # image: oussamasaihi/frontend:latest
+   # restart: on-failure
+   # ports:
+    #  - "80:80"
+   # environment:
+    #  BACKEND_URL: "http://spring:8088"  # Point this to your backend service
+   # depends_on:
+    #  - spring
 
 volumes:
   db_data: {}
