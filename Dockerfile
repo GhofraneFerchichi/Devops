@@ -5,6 +5,6 @@ WORKDIR /app
 ARG artifact=target/springapp.jar
 
 COPY ${artifact} app.jar
-EXPOSE 8089
+EXPOSE 8088
 CMD ["java", "-jar", "app.jar"]
 
