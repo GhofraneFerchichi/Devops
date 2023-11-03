@@ -31,7 +31,7 @@ services:
     image: oussamasaihi/frontend:latest
     restart: on-failure
     ports:
-      - "80:80"
+      - "4200:4200"
     environment:
       BACKEND_URL: "http://spring:8088"  # Point this to your backend service
     depends_on:
