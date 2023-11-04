@@ -10,27 +10,31 @@ services:
       - "3306:3306"
     volumes:
       - achat_db_data:/var/lib/mysql
+
   spring:
     image: ghofraneferchichi/achat:latest
     restart: on-failure
     ports:
-      - "8089:8089"
+      - "8088:8088"
     environment:
-      SPRING_APPLICATION_JSON: '{
-              "spring.datasource.url"  : "jdbc:mysql://db:3306/achatdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
-              "spring.datasource.username" : "root",
-              "spring.datasource.password" : "root",
-              "spring.jpa.hibernate.ddl-auto" : "update"
-            }'
+      SPRING_DATASOURCE_URL: "jdbc:mysql://db:3306/achatdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "root"
+      SPRING_JPA_HIBERNATE_DDL-AUTO: "update"
     depends_on:
       - db
 
-  achat-frontend:
+  frontend:
+    image: ghofraneferchichi/frontend:latest
+    restart: on-failure
     build:
       context: .
-      dockerfile: Dockerfile
-    restart: unless-stopped
+      dockerfile: front/Dockerfile
     ports:
-      - "4200:80"
+      - "80:80"
+    environment:
+      BACKEND_URL: "http://spring:8088"
+    depends_on:
+      - spring
 volumes:
   achat_db_data:
