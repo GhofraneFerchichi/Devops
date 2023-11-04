@@ -24,17 +24,10 @@ services:
     depends_on:
       - db
 
-  frontend:
-    image: ghofraneferchichi/frontend:latest
-    restart: on-failure
-    build:
-      context: .
-      dockerfile: front/Dockerfile
+  achat-frontend:
+    image: frontend-apps # Specify the image name here
+    restart: unless-stopped
     ports:
       - "80:80"
-    environment:
-      BACKEND_URL: "http://spring:8088"
-    depends_on:
-      - spring
 volumes:
   achat_db_data:
