@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FactureRestController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">achat</a> &gt; <a href="index.source.html" class="el_package">tn.esprit.rh.achat.controllers</a> &gt; <span class="el_source">FactureRestController.java</span></div><h1>FactureRestController.java</h1><pre class="source lang-java linenums">package tn.esprit.rh.achat.controllers;
+
+import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
+import tn.esprit.rh.achat.entities.Facture;
+import tn.esprit.rh.achat.services.IFactureService;
+
+import java.util.Date;
+import java.util.List;
+
+
+@RestController
+@Api(tags = &quot;Gestion des factures&quot;)
+@RequestMapping(&quot;/facture&quot;)
+@CrossOrigin(&quot;*&quot;)
+<span class="nc" id="L18">public class FactureRestController {</span>
+
+    @Autowired
+    IFactureService factureService;
+
+    // http://localhost:8089/SpringMVC/facture/retrieve-all-factures
+    @GetMapping(&quot;/retrieve-all-factures&quot;)
+    @ResponseBody
+    public List&lt;Facture&gt; getFactures() {
+<span class="nc" id="L27">        List&lt;Facture&gt; list = factureService.retrieveAllFactures();</span>
+<span class="nc" id="L28">        return list;</span>
+    }
+
+    // http://localhost:8089/SpringMVC/facture/retrieve-facture/8
+    @GetMapping(&quot;/retrieve-facture/{facture-id}&quot;)
+    @ResponseBody
+    public Facture retrieveFacture(@PathVariable(&quot;facture-id&quot;) Long factureId) {
+<span class="nc" id="L35">        return factureService.retrieveFacture(factureId);</span>
+    }
+
+    // http://localhost:8089/SpringMVC/facture/add-facture/{fournisseur-id}
+    @PostMapping(&quot;/add-facture&quot;)
+    @ResponseBody
+    public Facture addFacture(@RequestBody Facture f) {
+<span class="nc" id="L42">        Facture facture = factureService.addFacture(f);</span>
+<span class="nc" id="L43">        return facture;</span>
+    }
+
+    /*
+     * une facture peut etre annulé si elle a été saisie par erreur Pour ce
+     * faire, il suffit de mettre le champs active à false
+     */
+    // http://localhost:8089/SpringMVC/facture/cancel-facture/{facture-id}
+    @PutMapping(&quot;/cancel-facture/{facture-id}&quot;)
+    @ResponseBody
+    public void cancelFacture(@PathVariable(&quot;facture-id&quot;) Long factureId) {
+<span class="nc" id="L54">        factureService.cancelFacture(factureId);</span>
+<span class="nc" id="L55">    }</span>
+
+    // http://localhost:8089/SpringMVC/facture/getFactureByFournisseur/{fournisseur-id}
+    @GetMapping(&quot;/getFactureByFournisseur/{fournisseur-id}&quot;)
+    @ResponseBody
+    public List&lt;Facture&gt; getFactureByFournisseur(@PathVariable(&quot;fournisseur-id&quot;) Long fournisseurId) {
+<span class="nc" id="L61">        return factureService.getFacturesByFournisseur(fournisseurId);</span>
+    }
+
+    // http://localhost:8089/SpringMVC/facture/assignOperateurToFacture/1/1
+    @PutMapping(value = &quot;/assignOperateurToFacture/{idOperateur}/{idFacture}&quot;)
+    public void assignOperateurToFacture(@PathVariable(&quot;idOperateur&quot;) Long idOperateur, @PathVariable(&quot;idFacture&quot;) Long idFacture) {
+<span class="nc" id="L67">        factureService.assignOperateurToFacture(idOperateur, idFacture);</span>
+<span class="nc" id="L68">    }</span>
+
+    // http://localhost:8089/SpringMVC/facture/pourcentageRecouvrement/{startDate}/{endDate}
+    @GetMapping(value = &quot;/pourcentageRecouvrement/{startDate}/{endDate}&quot;)
+    public float pourcentageRecouvrement(
+            @PathVariable(name = &quot;startDate&quot;) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+            @PathVariable(name = &quot;endDate&quot;) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
+        try {
+<span class="nc" id="L76">            return factureService.pourcentageRecouvrement(startDate, endDate);</span>
+<span class="nc" id="L77">        } catch (Exception e) {</span>
+<span class="nc" id="L78">            return 0;</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

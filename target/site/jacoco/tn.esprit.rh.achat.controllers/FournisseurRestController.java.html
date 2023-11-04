@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FournisseurRestController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">achat</a> &gt; <a href="index.source.html" class="el_package">tn.esprit.rh.achat.controllers</a> &gt; <span class="el_source">FournisseurRestController.java</span></div><h1>FournisseurRestController.java</h1><pre class="source lang-java linenums">package tn.esprit.rh.achat.controllers;
+
+import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import tn.esprit.rh.achat.entities.Fournisseur;
+import tn.esprit.rh.achat.services.IFournisseurService;
+
+import java.util.List;
+
+
+@RestController
+@Api(tags = &quot;Gestion des fournisseurss&quot;)
+@RequestMapping(&quot;/fournisseur&quot;)
+<span class="nc" id="L15">public class FournisseurRestController {</span>
+
+	@Autowired
+	IFournisseurService fournisseurService;
+
+	// http://localhost:8089/SpringMVC/fournisseur/retrieve-all-fournisseurs
+	@GetMapping(&quot;/retrieve-all-fournisseurs&quot;)
+	@ResponseBody
+	public List&lt;Fournisseur&gt; getFournisseurs() {
+<span class="nc" id="L24">		List&lt;Fournisseur&gt; fournisseurs = fournisseurService.retrieveAllFournisseurs();</span>
+<span class="nc" id="L25">		return fournisseurs;</span>
+	}
+
+	// http://localhost:8089/SpringMVC/fournisseur/retrieve-fournisseur/8
+	@GetMapping(&quot;/retrieve-fournisseur/{fournisseur-id}&quot;)
+	@ResponseBody
+	public Fournisseur retrieveFournisseur(@PathVariable(&quot;fournisseur-id&quot;) Long fournisseurId) {
+<span class="nc" id="L32">		return fournisseurService.retrieveFournisseur(fournisseurId);</span>
+	}
+
+	// http://localhost:8089/SpringMVC/fournisseur/add-fournisseur
+	@PostMapping(&quot;/add-fournisseur&quot;)
+	@ResponseBody
+	public Fournisseur addFournisseur(@RequestBody Fournisseur f) {
+<span class="nc" id="L39">		Fournisseur fournisseur = fournisseurService.addFournisseur(f);</span>
+<span class="nc" id="L40">		return fournisseur;</span>
+	}
+
+	// http://localhost:8089/SpringMVC/fournisseur/remove-fournisseur/{fournisseur-id}
+	@DeleteMapping(&quot;/remove-fournisseur/{fournisseur-id}&quot;)
+	@ResponseBody
+	public void removeFournisseur(@PathVariable(&quot;fournisseur-id&quot;) Long fournisseurId) {
+<span class="nc" id="L47">		fournisseurService.deleteFournisseur(fournisseurId);</span>
+<span class="nc" id="L48">	}</span>
+
+	// http://localhost:8089/SpringMVC/fournisseur/modify-fournisseur
+	@PutMapping(&quot;/modify-fournisseur&quot;)
+	@ResponseBody
+	public Fournisseur modifyFournisseur(@RequestBody Fournisseur fournisseur) {
+<span class="nc" id="L54">		return fournisseurService.updateFournisseur(fournisseur);</span>
+	}
+
+	// http://localhost:8089/SpringMVC/fournisseur/assignSecteurActiviteToFournisseur/1/5
+		@PutMapping(value = &quot;/assignSecteurActiviteToFournisseur/{idSecteurActivite}/{idFournisseur}&quot;)
+		public void assignProduitToStock(@PathVariable(&quot;idSecteurActivite&quot;) Long idSecteurActivite, @PathVariable(&quot;idFournisseur&quot;) Long idFournisseur) {
+<span class="nc" id="L60">			fournisseurService.assignSecteurActiviteToFournisseur(idSecteurActivite, idFournisseur);</span>
+<span class="nc" id="L61">		}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

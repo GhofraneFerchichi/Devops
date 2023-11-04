@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StockServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">achat</a> &gt; <a href="index.source.html" class="el_package">tn.esprit.rh.achat.services</a> &gt; <span class="el_source">StockServiceImpl.java</span></div><h1>StockServiceImpl.java</h1><pre class="source lang-java linenums">package tn.esprit.rh.achat.services;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import tn.esprit.rh.achat.entities.Stock;
+import tn.esprit.rh.achat.repositories.StockRepository;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+@Service
+<span class="nc" id="L14">@Slf4j</span>
+<span class="nc" id="L15">public class StockServiceImpl implements IStockService {</span>
+
+	@Autowired
+	StockRepository stockRepository;
+
+
+	@Override
+	public List&lt;Stock&gt; retrieveAllStocks() {
+		// récuperer la date à l'instant t1
+<span class="nc" id="L24">		log.info(&quot;In method retrieveAllStocks&quot;);</span>
+<span class="nc" id="L25">		List&lt;Stock&gt; stocks = (List&lt;Stock&gt;) stockRepository.findAll();</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">		for (Stock stock : stocks) {</span>
+<span class="nc" id="L27">			log.info(&quot; Stock : &quot; + stock);</span>
+<span class="nc" id="L28">		}</span>
+<span class="nc" id="L29">		log.info(&quot;out of method retrieveAllStocks&quot;);</span>
+		// récuperer la date à l'instant t2
+		// temps execution = t2 - t1
+<span class="nc" id="L32">		return stocks;</span>
+	}
+
+	@Override
+	public Stock addStock(Stock s) {
+		// récuperer la date à l'instant t1
+<span class="nc" id="L38">		log.info(&quot;In method addStock&quot;);</span>
+<span class="nc" id="L39">		return stockRepository.save(s);</span>
+		
+	}
+
+	@Override
+	public void deleteStock(Long stockId) {
+<span class="nc" id="L45">		log.info(&quot;In method deleteStock&quot;);</span>
+<span class="nc" id="L46">		stockRepository.deleteById(stockId);</span>
+
+<span class="nc" id="L48">	}</span>
+
+	@Override
+	public Stock updateStock(Stock s) {
+<span class="nc" id="L52">		log.info(&quot;In method updateStock&quot;);</span>
+<span class="nc" id="L53">		return stockRepository.save(s);</span>
+	}
+
+	@Override
+	public Stock retrieveStock(Long stockId) {
+<span class="nc" id="L58">		long start = System.currentTimeMillis();</span>
+<span class="nc" id="L59">		log.info(&quot;In method retrieveStock&quot;);</span>
+<span class="nc" id="L60">		Stock stock = stockRepository.findById(stockId).orElse(null);</span>
+<span class="nc" id="L61">		log.info(&quot;out of method retrieveStock&quot;);</span>
+<span class="nc" id="L62">		 long elapsedTime = System.currentTimeMillis() - start;</span>
+<span class="nc" id="L63">		log.info(&quot;Method execution time: &quot; + elapsedTime + &quot; milliseconds.&quot;);</span>
+
+<span class="nc" id="L65">		return stock;</span>
+	}
+
+	@Override
+	public String retrieveStatusStock() {
+<span class="nc" id="L70">		SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSS&quot;);</span>
+<span class="nc" id="L71">		Date now = new Date();</span>
+<span class="nc" id="L72">		String msgDate = sdf.format(now);</span>
+<span class="nc" id="L73">		String finalMessage = &quot;&quot;;</span>
+<span class="nc" id="L74">		String newLine = System.getProperty(&quot;line.separator&quot;);</span>
+<span class="nc" id="L75">		List&lt;Stock&gt; stocksEnRouge = (List&lt;Stock&gt;) stockRepository.retrieveStatusStock();</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">		for (int i = 0; i &lt; stocksEnRouge.size(); i++) {</span>
+<span class="nc" id="L77">			finalMessage = newLine + finalMessage + msgDate + newLine + &quot;: le stock &quot;</span>
+<span class="nc" id="L78">					+ stocksEnRouge.get(i).getLibelleStock() + &quot; a une quantité de &quot; + stocksEnRouge.get(i).getQte()</span>
+<span class="nc" id="L79">					+ &quot; inférieur à la quantité minimale a ne pas dépasser de &quot; + stocksEnRouge.get(i).getQteMin()</span>
+					+ newLine;
+
+		}
+<span class="nc" id="L83">		log.info(finalMessage);</span>
+<span class="nc" id="L84">		return finalMessage;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FactureServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">achat</a> &gt; <a href="index.source.html" class="el_package">tn.esprit.rh.achat.services</a> &gt; <span class="el_source">FactureServiceImpl.java</span></div><h1>FactureServiceImpl.java</h1><pre class="source lang-java linenums">package tn.esprit.rh.achat.services;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import tn.esprit.rh.achat.entities.*;
+import tn.esprit.rh.achat.repositories.*;
+
+import javax.transaction.Transactional;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+
+@Service
+<span class="nc" id="L15">@Slf4j</span>
+@Transactional
+<span class="nc" id="L17">public class FactureServiceImpl implements IFactureService {</span>
+
+	@Autowired
+	FactureRepository factureRepository;
+	@Autowired
+	OperateurRepository operateurRepository;
+	@Autowired
+	DetailFactureRepository detailFactureRepository;
+	@Autowired
+	FournisseurRepository fournisseurRepository;
+	@Autowired
+	ProduitRepository produitRepository;
+    @Autowired
+    ReglementServiceImpl reglementService;
+	
+	@Override
+	public List&lt;Facture&gt; retrieveAllFactures() {
+<span class="nc" id="L34">		List&lt;Facture&gt; factures = (List&lt;Facture&gt;) factureRepository.findAll();</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">		for (Facture facture : factures) {</span>
+<span class="nc" id="L36">			log.info(&quot; facture : &quot; + facture);</span>
+<span class="nc" id="L37">		}</span>
+<span class="nc" id="L38">		return factures;</span>
+	}
+
+	
+	public Facture addFacture(Facture f) {
+<span class="nc" id="L43">		return factureRepository.save(f);</span>
+	}
+
+	/*
+	 * calculer les montants remise et le montant total d'un détail facture
+	 * ainsi que les montants d'une facture
+	 */
+	private Facture addDetailsFacture(Facture f, Set&lt;DetailFacture&gt; detailsFacture) {
+<span class="nc" id="L51">		float montantFacture = 0;</span>
+<span class="nc" id="L52">		float montantRemise = 0;</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">		for (DetailFacture detail : detailsFacture) {</span>
+			//Récuperer le produit 
+<span class="nc" id="L55">			Produit produit = produitRepository.findById(detail.getProduit().getIdProduit()).get();</span>
+			//Calculer le montant total pour chaque détail Facture
+<span class="nc" id="L57">			float prixTotalDetail = detail.getQteCommandee() * produit.getPrix();</span>
+			//Calculer le montant remise pour chaque détail Facture
+<span class="nc" id="L59">			float montantRemiseDetail = (prixTotalDetail * detail.getPourcentageRemise()) / 100;</span>
+<span class="nc" id="L60">			float prixTotalDetailRemise = prixTotalDetail - montantRemiseDetail;</span>
+<span class="nc" id="L61">			detail.setMontantRemise(montantRemiseDetail);</span>
+<span class="nc" id="L62">			detail.setPrixTotalDetail(prixTotalDetailRemise);</span>
+			//Calculer le montant total pour la facture
+<span class="nc" id="L64">			montantFacture = montantFacture + prixTotalDetailRemise;</span>
+			//Calculer le montant remise pour la facture
+<span class="nc" id="L66">			montantRemise = montantRemise + montantRemiseDetail;</span>
+<span class="nc" id="L67">			detailFactureRepository.save(detail);</span>
+<span class="nc" id="L68">		}</span>
+<span class="nc" id="L69">		f.setMontantFacture(montantFacture);</span>
+<span class="nc" id="L70">		f.setMontantRemise(montantRemise);</span>
+<span class="nc" id="L71">		return f;</span>
+	}
+
+	@Override
+	public void cancelFacture(Long factureId) {
+		// Méthode 01
+		//Facture facture = factureRepository.findById(factureId).get();
+<span class="nc" id="L78">		Facture facture = factureRepository.findById(factureId).orElse(new Facture());</span>
+<span class="nc" id="L79">		facture.setArchivee(true);</span>
+<span class="nc" id="L80">		factureRepository.save(facture);</span>
+		//Méthode 02 (Avec JPQL)
+<span class="nc" id="L82">		factureRepository.updateFacture(factureId);</span>
+<span class="nc" id="L83">	}</span>
+
+	@Override
+	public Facture retrieveFacture(Long factureId) {
+
+<span class="nc" id="L88">		Facture facture = factureRepository.findById(factureId).orElse(null);</span>
+<span class="nc" id="L89">		log.info(&quot;facture :&quot; + facture);</span>
+<span class="nc" id="L90">		return facture;</span>
+	}
+
+	@Override
+	public List&lt;Facture&gt; getFacturesByFournisseur(Long idFournisseur) {
+<span class="nc" id="L95">		Fournisseur fournisseur = fournisseurRepository.findById(idFournisseur).orElse(null);</span>
+<span class="nc" id="L96">		return (List&lt;Facture&gt;) fournisseur.getFactures();</span>
+	}
+
+	@Override
+	public void assignOperateurToFacture(Long idOperateur, Long idFacture) {
+<span class="nc" id="L101">		Facture facture = factureRepository.findById(idFacture).orElse(null);</span>
+<span class="nc" id="L102">		Operateur operateur = operateurRepository.findById(idOperateur).orElse(null);</span>
+<span class="nc" id="L103">		operateur.getFactures().add(facture);</span>
+<span class="nc" id="L104">		operateurRepository.save(operateur);</span>
+<span class="nc" id="L105">	}</span>
+
+	@Override
+	public float pourcentageRecouvrement(Date startDate, Date endDate) {
+<span class="nc" id="L109">		float totalFacturesEntreDeuxDates = factureRepository.getTotalFacturesEntreDeuxDates(startDate,endDate);</span>
+<span class="nc" id="L110">		float totalRecouvrementEntreDeuxDates =reglementService.getChiffreAffaireEntreDeuxDate(startDate,endDate);</span>
+<span class="nc" id="L111">		float pourcentage=(totalRecouvrementEntreDeuxDates/totalFacturesEntreDeuxDates)*100;</span>
+<span class="nc" id="L112">		return pourcentage;</span>
+	}
+	
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SpringFoxSwaggerConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">achat</a> &gt; <a href="index.source.html" class="el_package">tn.esprit.rh.achat.util</a> &gt; <span class="el_source">SpringFoxSwaggerConfig.java</span></div><h1>SpringFoxSwaggerConfig.java</h1><pre class="source lang-java linenums">package tn.esprit.rh.achat.util;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.ApiKey;
+import springfox.documentation.service.AuthorizationScope;
+import springfox.documentation.service.SecurityReference;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+
+@Configuration
+@EnableSwagger2
+<span class="nc" id="L23">public class SpringFoxSwaggerConfig {</span>
+
+	public static final String AUTHORIZATION_HEADER = &quot;Authorization&quot;;
+
+	@Bean
+	public Docket api() {
+<span class="nc" id="L29">		return new Docket(DocumentationType.SWAGGER_2)</span>
+<span class="nc" id="L30">				.apiInfo(apiEndPointsInfo())</span>
+<span class="nc" id="L31">				.securityContexts(Collections.singletonList(securityContext()))</span>
+<span class="nc" id="L32">				.securitySchemes(Arrays.asList(apiKey()))</span>
+<span class="nc" id="L33">				.select()</span>
+<span class="nc" id="L34">				.apis(RequestHandlerSelectors.basePackage(&quot;com.esprit.examen.controller&quot;))</span>
+<span class="nc" id="L35">				.paths(PathSelectors.any())</span>
+<span class="nc" id="L36">				.build();</span>
+	}
+	
+    private ApiInfo apiEndPointsInfo() {
+<span class="nc" id="L40">        return new ApiInfoBuilder()</span>
+<span class="nc" id="L41">                .title(&quot;My STOCK PROJECT&quot;)</span>
+<span class="nc" id="L42">                .description(&quot;Micro-Service Documentation&quot;)</span>
+<span class="nc" id="L43">                .version(&quot;1.0.0&quot;)</span>
+<span class="nc" id="L44">                .build();</span>
+    }
+
+	private ApiKey apiKey() {
+<span class="nc" id="L48">		return new ApiKey(&quot;Bearer&quot;, AUTHORIZATION_HEADER, &quot;header&quot;);</span>
+	}
+	
+	
+	private SecurityContext securityContext() {
+<span class="nc" id="L53">		return SecurityContext.builder()</span>
+<span class="nc" id="L54">				.securityReferences(defaultAuth())</span>
+<span class="nc" id="L55">				.build();</span>
+	}
+
+	private List&lt;SecurityReference&gt; defaultAuth() {
+<span class="nc" id="L59">		AuthorizationScope authorizationScope = new AuthorizationScope(&quot;global&quot;, &quot;accessEverything&quot;);</span>
+<span class="nc" id="L60">		AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];</span>
+<span class="nc" id="L61">		authorizationScopes[0] = authorizationScope;</span>
+<span class="nc" id="L62">		return Arrays.asList(new SecurityReference(&quot;Bearer&quot;, authorizationScopes)); </span>
+
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
