@@ -47,7 +47,7 @@ services:
     depends_on:
       - db
     environment:
-      PMA_HOST: mysql
+      PMA_HOST: db
       PMA_USER: root
       PMA_PASSWORD: root
 
