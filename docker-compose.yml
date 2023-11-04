@@ -36,12 +36,11 @@ services:
     ports:
       - "80:80"
     environment:
-      BACKEND_URL: "http://localhost:8088"  
+      BACKEND_URL: "http://localhost:8088"
     depends_on:
       - spring
 
-      
-    phpmyadmin:
+  phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
       - "9099:9099"
@@ -50,7 +49,7 @@ services:
     environment:
       PMA_HOST: mysql
       PMA_USER: root
-      PMA_PASSWORD: root    
+      PMA_PASSWORD: root
 
 volumes:
   db_data: {}
