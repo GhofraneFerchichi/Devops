@@ -36,7 +36,7 @@ services:
     ports:
       - "80:80"
     environment:
-      BACKEND_URL: "http://localhost:8089"
+      BACKEND_URL: "http://192.168.1.8:8089"
     depends_on:
       - spring
 
