@@ -10,9 +10,9 @@ import java.util.List;
 
 
 @RestController
-@CrossOrigin("*")
 @Api(tags = "Gestion des produits")
 @RequestMapping("/produit")
+@CrossOrigin("*")
 public class ProduitRestController {
 
 	@Autowired
