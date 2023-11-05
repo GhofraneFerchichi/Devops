@@ -16,7 +16,7 @@ services:
     image: oussamasaihi/backend:latest
     restart: on-failure
     ports:
-      - "8088:8088"
+      - "8089:8089"
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.datasource.url": "jdbc:mysql://db:3306/achatdb?createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
