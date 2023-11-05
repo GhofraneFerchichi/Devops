@@ -57,6 +57,15 @@
 			<version>5.6.3</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+			<version>1.9.13</version>
+		</dependency>
 		<!-- Include any other dependencies your project needs -->
 	</dependencies>
 
@@ -85,9 +94,9 @@
 			</plugin>
 			<!-- Configure JaCoCo for coverage -->
 			<plugin>
-					<groupId>org.jacoco</groupId>
-					<artifactId>jacoco-maven-plugin</artifactId>
-					<version>0.8.7</version> <!-- Use a version compatible with Java 17 -->
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.7</version> <!-- Use a version compatible with Java 17 -->
 				<executions>
 					<execution>
 						<goals>
