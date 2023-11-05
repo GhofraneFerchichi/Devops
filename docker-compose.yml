@@ -25,7 +25,7 @@ services:
       - db
 
   achat-frontend:
-    image: ghofraneferchichi/frontend-apps # Specify the image name here
+    image: ghofraneferchichi/frontend-app-angular # Specify the image name here
     restart: unless-stopped
     ports:
       - "80:80"
