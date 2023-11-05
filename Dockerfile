@@ -4,6 +4,6 @@ WORKDIR /app
 # the artifact path
 ARG artifact=target/achat.jar
 
-COPY ${artifact} my-service-0.1.jar
+COPY ${artifact} achat.jar
 EXPOSE 8088
-CMD ["java", "-jar", "my-service-0.1.jar"]
+CMD ["java", "-jar", "achat.jar"]
