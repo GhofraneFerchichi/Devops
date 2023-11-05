@@ -36,14 +36,14 @@ services:
     ports:
       - "80:80"
     environment:
-      BACKEND_URL: "http://192.168.1.8:8089"
+      BACKEND_URL: "http://spring:8089"
     depends_on:
       - spring
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
-      - "9099:9099"
+      - "9091:9091"
     depends_on:
       - db
     environment:
