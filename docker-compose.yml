@@ -29,6 +29,11 @@ services:
       MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED: 'true'
       MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED: 'true'
 
+  # Frontend application service
+  front:
+    image: mariem999/devops:front
+    ports:
+      - "80:80"
 
 
 volumes:
