@@ -82,7 +82,7 @@
 	<distributionManagement>
 		<repository>
 			<id>deploymentRepo</id>
-			<name>Nexus Repository</name>
+			<name>deploymentRepo</name>
 			<url>http://192.168.33.22:8081/repository/deploymentRepo/</url>
 		</repository>
 	</distributionManagement>
