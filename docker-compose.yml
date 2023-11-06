@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3'
 
 services:
   # MySQL database service
@@ -28,9 +28,6 @@ services:
       MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: '*'
       MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED: 'true'
       MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED: 'true'
-
-
-
 
 
 
