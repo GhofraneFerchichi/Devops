@@ -25,6 +25,19 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/devops?createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
-
+      
+  angular:
+    image: ahmedsassi/frontend:latest
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: Dockerfile-Front
+    ports:
+      - "80:80"
+    environment:
+      BACKEND_URL: "http://spring:8089"
+    depends_on:
+      - app    
+  
 volumes:
   mysql-data:
