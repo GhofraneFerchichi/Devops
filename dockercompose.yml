@@ -12,7 +12,7 @@ services:
       - achat_db_data:/var/lib/mysql
 
   spring:
-    image: docker build -t islembenaziza-5arctic4-image/achat:latest
+    image: docker build -t islembnaziza/backend:latest
     restart: on-failure
     ports:
       - "8089:8089"
