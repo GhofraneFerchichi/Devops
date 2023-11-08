@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OperateurController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">achat</a> &gt; <a href="index.source.html" class="el_package">tn.esprit.rh.achat.controllers</a> &gt; <span class="el_source">OperateurController.java</span></div><h1>OperateurController.java</h1><pre class="source lang-java linenums">package tn.esprit.rh.achat.controllers;
+
+import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import tn.esprit.rh.achat.entities.Operateur;
+import tn.esprit.rh.achat.services.IOperateurService;
+
+import java.util.List;
+
+@RestController
+@Api(tags = &quot;Gestion des opérateurs&quot;)
+@RequestMapping(&quot;/operateur&quot;)
+@CrossOrigin(&quot;*&quot;)
+<span class="nc" id="L15">public class OperateurController {</span>
+
+	@Autowired
+	IOperateurService operateurService;
+	
+	// http://localhost:8089/SpringMVC/operateur/retrieve-all-operateurs
+	@GetMapping(&quot;/retrieve-all-operateurs&quot;)
+	@ResponseBody
+	public List&lt;Operateur&gt; getOperateurs() {
+<span class="nc" id="L24">		List&lt;Operateur&gt; list = operateurService.retrieveAllOperateurs();</span>
+<span class="nc" id="L25">		return list;</span>
+	}
+
+	// http://localhost:8089/SpringMVC/operateur/retrieve-operateur/8
+	@GetMapping(&quot;/retrieve-operateur/{operateur-id}&quot;)
+	@ResponseBody
+	public Operateur retrieveOperateur(@PathVariable(&quot;operateur-id&quot;) Long operateurId) {
+<span class="nc" id="L32">		return operateurService.retrieveOperateur(operateurId);</span>
+	}
+
+	// http://localhost:8089/SpringMVC/operateur/add-operateur
+	@PostMapping(&quot;/add-operateur&quot;)
+	@ResponseBody
+	public Operateur addOperateur(@RequestBody Operateur op) {
+<span class="nc" id="L39">		Operateur operateur = operateurService.addOperateur(op);</span>
+<span class="nc" id="L40">		return operateur;</span>
+	}
+
+	// http://localhost:8089/SpringMVC/operateur/remove-operateur/{operateur-id}
+	@DeleteMapping(&quot;/remove-operateur/{operateur-id}&quot;)
+	@ResponseBody
+	public void removeOperateur(@PathVariable(&quot;operateur-id&quot;) Long operateurId) {
+<span class="nc" id="L47">		operateurService.deleteOperateur(operateurId);</span>
+<span class="nc" id="L48">	}</span>
+
+	// http://localhost:8089/SpringMVC/operateur/modify-operateur
+	@PutMapping(&quot;/modify-operateur&quot;)
+	@ResponseBody
+	public Operateur modifyOperateur(@RequestBody Operateur operateur) {
+<span class="nc" id="L54">		return operateurService.updateOperateur(operateur);</span>
+	}
+
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

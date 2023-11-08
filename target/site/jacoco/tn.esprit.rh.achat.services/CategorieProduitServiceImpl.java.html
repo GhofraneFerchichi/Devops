@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CategorieProduitServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">achat</a> &gt; <a href="index.source.html" class="el_package">tn.esprit.rh.achat.services</a> &gt; <span class="el_source">CategorieProduitServiceImpl.java</span></div><h1>CategorieProduitServiceImpl.java</h1><pre class="source lang-java linenums">package tn.esprit.rh.achat.services;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import tn.esprit.rh.achat.entities.CategorieProduit;
+import tn.esprit.rh.achat.repositories.CategorieProduitRepository;
+
+import java.util.List;
+
+@Service
+<span class="nc" id="L11">public class CategorieProduitServiceImpl implements ICategorieProduitService {</span>
+
+	
+	@Autowired
+	CategorieProduitRepository categorieProduitRepository;
+	@Override
+	public List&lt;CategorieProduit&gt; retrieveAllCategorieProduits() {
+		
+<span class="nc" id="L19">		return categorieProduitRepository.findAll();</span>
+	}
+
+	@Override
+	public CategorieProduit addCategorieProduit(CategorieProduit cp) {
+<span class="nc" id="L24">		categorieProduitRepository.save(cp);</span>
+<span class="nc" id="L25">		return cp;</span>
+	}
+
+	@Override
+	public void deleteCategorieProduit(Long id) {
+<span class="nc" id="L30">		categorieProduitRepository.deleteById(id);</span>
+		
+<span class="nc" id="L32">	}</span>
+
+	@Override
+	public CategorieProduit updateCategorieProduit(CategorieProduit cp) {
+<span class="nc" id="L36">		categorieProduitRepository.save(cp);</span>
+<span class="nc" id="L37">		return cp;</span>
+	}
+
+	@Override
+	public CategorieProduit retrieveCategorieProduit(Long id) {
+<span class="nc" id="L42">		CategorieProduit categorieProduit = categorieProduitRepository.findById(id).orElse(null);</span>
+<span class="nc" id="L43">		return categorieProduit;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
