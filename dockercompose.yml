@@ -24,10 +24,10 @@ services:
     depends_on:
       - db
 
-  achat-frontend:
-    image: islembnaziza/frontend:latest # Specify the image name here
-    restart: on-failure
-    ports:
-    - "80:80"
+ # achat-frontend:
+  #  image: islembnaziza/frontend:latest # Specify the image name here
+   # restart: on-failure
+   #  ports:
+   # - "80:80"
 volumes:
   achat_db_data:
