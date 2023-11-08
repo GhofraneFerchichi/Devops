@@ -1,6 +1,5 @@
 FROM openjdk:11-jre-slim
 WORKDIR /app
-ARG artifact=target/my-service-0.1.jar
-COPY ${artifact} app.jar
-EXPOSE 8088
-CMD ["java", "-jar", "app.jar"]
+COPY target/achat-1.0.jar .
+EXPOSE 8089
+CMD ["java", "-jar", "achat-1.0.jar"]

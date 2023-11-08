@@ -72,11 +72,10 @@
 		<repository>
 			<id>deploymentRepo</id>
 			<name>Nexus Repository</name>
-			<url>http://192.168.56.0:8081/repository/deploymentRepo/</url>
+			<url>http://192.168.56.0:8081/repository/maven-releases/</url>
 		</repository>
 	</distributionManagement>
 	<build>
-		<finalName>my-service-${project.version}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
