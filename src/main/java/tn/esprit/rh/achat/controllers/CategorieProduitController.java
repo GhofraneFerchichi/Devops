@@ -9,6 +9,7 @@ import tn.esprit.rh.achat.services.ICategorieProduitService;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @Api(tags = "Gestion des categories Produit")
 @RequestMapping("/categorieProduit")
 public class CategorieProduitController {
