@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: tn.esprit.rh.achat.SecteurActiviteTest
--------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.052 s - in tn.esprit.rh.achat.SecteurActiviteTest
